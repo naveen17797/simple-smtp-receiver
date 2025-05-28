@@ -1,0 +1,8 @@
+From: <a@a.com>
+To: <b@b.com>
+Message:
+Subject: foo
+
+
+howdy
+========================================
