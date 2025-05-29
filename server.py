@@ -1,5 +1,7 @@
 import socket
 
+from validation import get_spf_records, is_ip_authorized
+
 HOST = '127.0.0.1'
 PORT = 2525
 MAILBOX_FILE = 'mailbox.txt'
@@ -54,6 +56,9 @@ def handle_smtp(conn):
 
         if line.upper().startswith("MAIL FROM:"):
             sender = line[10:].strip()
+            sender_domain = sender.split('@')[-1]
+            peer_ip = conn.getpeername()[0]
+            print(sender_domain, peer_ip)
             send(conn, "250 OK")
         elif line.upper().startswith("RCPT TO:"):
             recipients.append(line[8:].strip())
