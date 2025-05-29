@@ -55,11 +55,8 @@ def handle_smtp(conn):
             continue
 
         if line.upper().startswith("MAIL FROM:"):
-            sender = line[10:].strip()
-            sender_domain = sender.split('@')[-1]
-            peer_ip = conn.getpeername()[0]
-            print(sender_domain, peer_ip)
-            send(conn, "250 OK")
+            sender = line[10:].strip().strip('<>')
+            validate_spf(conn, sender)
         elif line.upper().startswith("RCPT TO:"):
             recipients.append(line[8:].strip())
             send(conn, "250 OK")
@@ -74,6 +71,23 @@ def handle_smtp(conn):
 
         else:
             send(conn, "250 OK")  # Just acknowledge everything else
+
+
+def validate_spf(conn, sender):
+    sender_domain = sender.split('@')[-1]
+    peer_ip = conn.getpeername()[0]
+    print(sender_domain, peer_ip)
+    auth_result = is_ip_authorized(sender_domain, peer_ip)
+    print("Auth result:", auth_result)
+    if auth_result is True:
+        send(conn, "250 OK")
+    elif auth_result is False:
+        send(conn, "550 5.7.1 SPF check failed: unauthorized sender IP")
+        conn.close()
+    else:  # auth_result is None (e.g., DNS failure)
+        send(conn, "451 4.3.0 Temporary DNS failure while checking SPF")
+        conn.close()
+
 
 def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:

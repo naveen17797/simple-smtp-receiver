@@ -6,3 +6,43 @@ Subject: foo
 
 howdy
 ========================================
+From: <a@a.com>
+To: <b@b.com>
+Message:
+Subject: foo
+
+
+dd
+========================================
+From: a@a.com
+To: <b@b.com>
+Message:
+Subject: foo
+
+
+sss
+========================================
+From: a@a.com
+To: <b@b.com>
+Message:
+Subject: foo
+
+
+ssss
+========================================
+From: a@a.com
+To: <b@b.com>
+Message:
+Subject: foo
+
+
+sda
+========================================
+From: a@a.com
+To: <b@b.com>
+Message:
+Subject: foo
+
+
+test
+========================================

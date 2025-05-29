@@ -29,7 +29,7 @@ def is_ip_authorized(domain, ip):
     try:
         sender_ip = ipaddress.ip_address(ip)
         spf_ranges = get_spf_records(domain)
-
+        print(sender_ip, spf_ranges)
         for spf_range in spf_ranges:
             if sender_ip in ipaddress.ip_network(spf_range):
                 return True
