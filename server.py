@@ -56,7 +56,8 @@ def handle_smtp(conn):
 
         if line.upper().startswith("MAIL FROM:"):
             sender = line[10:].strip().strip('<>')
-            validate_spf(conn, sender)
+            if not validate_spf(conn, sender):
+                break
         elif line.upper().startswith("RCPT TO:"):
             recipients.append(line[8:].strip())
             send(conn, "250 OK")
@@ -87,6 +88,7 @@ def validate_spf(conn, sender):
     else:  # auth_result is None (e.g., DNS failure)
         send(conn, "451 4.3.0 Temporary DNS failure while checking SPF")
         conn.close()
+    return auth_result
 
 
 def main():

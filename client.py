@@ -18,7 +18,7 @@ def recv(sock):
 def main():
     print("Simple SMTP CLI Client")
 
-    from_addr = "a@a.com"
+    from_addr = "a@gmail.com"
     to_addr = "b@b.com"
     subject = "foo"
 
